@@ -15,12 +15,14 @@ public class Order {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
 
-    private LocalDate localDate;
+    @Column(nullable = false)
+    private LocalDate orderDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -31,7 +33,18 @@ public class Order {
 
     @PrePersist
     public void onCreate(){
-        this.localDate = LocalDate.now();
+        this.orderDate = LocalDate.now();
+        this.status = Status.CREATED;
+    }
+
+    public void addOrderItem(OrderItem item) {
+        orderItems.add(item);
+        item.setOrder(this);
+    }
+
+    public void removeOrderItem(OrderItem item) {
+        orderItems.remove(item);
+        item.setOrder(null);
     }
 
     public List<OrderItem> getOrderItems() {
@@ -58,12 +71,12 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public LocalDate getOrderDate() {
+        return orderDate;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {

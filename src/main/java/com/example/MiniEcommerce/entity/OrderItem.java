@@ -3,22 +3,27 @@ package com.example.MiniEcommerce.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "order_items")
+@Table(name = "order_items", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"order_id", "product_id"})
+})
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_item", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "order_item", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(nullable = false)
     private Integer quantity;
-    private Integer price;
+
+    @Column(nullable = false)
+    private Integer priceAtPurchase;
 
     public OrderItem() {
     }
@@ -55,11 +60,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getPriceAtPurchase() {
+        return priceAtPurchase;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setPriceAtPurchase(Integer priceAtPurchase) {
+        this.priceAtPurchase = priceAtPurchase;
     }
 }

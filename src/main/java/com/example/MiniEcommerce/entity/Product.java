@@ -15,6 +15,8 @@ public class Product {
     @Column(nullable = false)
     private Integer price;
 
+
+
     public Product() {
     }
 
