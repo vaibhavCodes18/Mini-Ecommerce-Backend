@@ -19,7 +19,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
-    protected User() {
+    public User() {
     }
     public void addOrder(Order order) {
         orders.add(order);

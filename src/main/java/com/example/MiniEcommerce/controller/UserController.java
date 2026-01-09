@@ -1,9 +1,12 @@
 package com.example.MiniEcommerce.controller;
 
 import com.example.MiniEcommerce.dto.UserRequestDto;
+import com.example.MiniEcommerce.dto.UserResponseDto;
+import com.example.MiniEcommerce.response.ApiResponse;
 import com.example.MiniEcommerce.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +21,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserRequestDto userRequestDto){
-        return new ResponseEntity<>();
+        UserResponseDto userResponseDto = userService.addUser(userRequestDto);
+        return new ResponseEntity<>(new ApiResponse<>(201, "done", userResponseDto), HttpStatus.CREATED);
     }
 }
