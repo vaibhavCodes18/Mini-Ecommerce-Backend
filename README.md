@@ -1,4 +1,4 @@
-﻿# 🛒 Mini Ecommerce Backend
+# 🛒 Mini Ecommerce Backend
 
 <div align="center">
 
@@ -6,6 +6,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1-green?style=flat-square&logo=springboot)
 ![Hibernate](https://img.shields.io/badge/Hibernate-6.1-blue?style=flat-square&logo=hibernate)
 ![H2 Database](https://img.shields.io/badge/H2-Database-lightgrey?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-black?style=flat-square)
 
 **Professional E-commerce Backend System | Spring Boot | JPA | REST APIs**
 
@@ -98,5 +99,23 @@ json
 }
 ```
 4. Get Order Details
-
    - GET http://localhost:8080/api/order/{orderId}
+
+### 🔧 Configuration
+- **application.properties**
+```
+
+server.port=8080
+spring.datasource.url=jdbc:h2:mem:ecommercedb
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.h2.console.enabled=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+### 👨‍💻 Author
+Your Name: *Vaibhav Sathe*
+- 📧 Email: vaibhav.sathe.159@gmail.com
+- 🔗 LinkedIn: https://www.linkedin.com/in/vaibhav-sathe89
+- 🐙 GitHub: @[vaibhavCodes18](https://github.com/vaibhavCodes18)
