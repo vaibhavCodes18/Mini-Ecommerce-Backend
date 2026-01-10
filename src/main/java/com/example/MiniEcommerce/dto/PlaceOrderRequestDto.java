@@ -9,6 +9,7 @@ public class PlaceOrderRequestDto {
     @NotNull(message = "userId is required")
     @Min(1)
     private Long userId;
+
     @NotNull(message = "orderItem is required")
     private List<OrderItemRequestDto> orderItems;
 
