@@ -1,9 +1,6 @@
 package com.example.MiniEcommerce.service;
 
-import com.example.MiniEcommerce.dto.OrderItemRequestDto;
-import com.example.MiniEcommerce.dto.OrderItemResponseDto;
-import com.example.MiniEcommerce.dto.PlaceOrderRequestDto;
-import com.example.MiniEcommerce.dto.PlaceOrderResponseDto;
+import com.example.MiniEcommerce.dto.*;
 import com.example.MiniEcommerce.entity.Order;
 import com.example.MiniEcommerce.entity.OrderItem;
 import com.example.MiniEcommerce.entity.Product;
@@ -74,5 +71,28 @@ public class OrderServiceImpl implements OrderService{
         placeOrderResponseDto.setItems(orders);
 
         return placeOrderResponseDto;
+    }
+
+    @Override
+    public OrderDetailResponseDto getOrderById(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("order not found"));
+
+        OrderDetailResponseDto orderDetailResponseDto = new OrderDetailResponseDto();
+        orderDetailResponseDto.setUserId(order.getUser().getId());
+        orderDetailResponseDto.setOrderId(order.getId());
+        orderDetailResponseDto.setStatus(order.getStatus());
+        orderDetailResponseDto.setOrderedDate(order.getOrderDate());
+        orderDetailResponseDto.setTotalAmount(order.getOrderItems().stream().mapToInt(item -> item.getPriceAtPurchase() * item.getQuantity()).sum());
+        List<ItemDetailResponseDto> orders = order.getOrderItems().stream().map(item -> {
+            ItemDetailResponseDto itemDetailResponseDto = new ItemDetailResponseDto();
+            itemDetailResponseDto.setProductId(item.getProduct().getId());
+            itemDetailResponseDto.setProductName(item.getProduct().getProductName());
+            itemDetailResponseDto.setPrice(item.getProduct().getPrice());
+            itemDetailResponseDto.setQuantity(item.getQuantity());
+            itemDetailResponseDto.setSubTotal(item.getPriceAtPurchase() * item.getQuantity());
+            return  itemDetailResponseDto;
+        }).toList();
+        orderDetailResponseDto.setItems(orders);
+        return orderDetailResponseDto;
     }
 }
